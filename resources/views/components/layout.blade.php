@@ -62,7 +62,7 @@
 
         <div class="pr-2">
             @auth
-                <a href="/profile/{{ auth()->user()->id }}" class="font-semibold capitalize border-r-2 border-black pr-[5px]">{{ auth()->user()->name }}</a>
+                <a href="/profile" class="font-semibold capitalize border-r-2 border-black pr-[5px]">{{ auth()->user()->name }}</a>
                 <form action="/logout" method="POST" class="inline-block">
                     @csrf
                     <button type="submit">Logout</button>
