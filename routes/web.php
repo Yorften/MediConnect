@@ -19,7 +19,7 @@ use App\Http\Controllers\ProfileController;
 Route::middleware('auth', 'check_doctor_patient')->group(function () {
     Route::get('/', function () {
         return view('welcome');
-    });
+    })->name('welcome');
 
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
@@ -31,6 +31,8 @@ Route::middleware('auth', 'check_doctor_patient')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile/patient', [ProfileController::class, 'updatePatient'])->name('patient.update');
+    Route::patch('/profile/doctor', [ProfileController::class, 'updateDoctor'])->name('doctor.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
