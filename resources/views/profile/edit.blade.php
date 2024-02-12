@@ -13,17 +13,20 @@
                 </div>
             </div>
 
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @role('doctor')
+            @role('doctor')
+                <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                    <div class="max-w-xl">
                         @include('profile.partials.update-doctor-information-form')
-                    @endrole
-                    @role('patient')
-                        @include('profile.partials.update-patient-information-form')
-                    @endrole
-
+                    </div>
                 </div>
-            </div>
+            @endrole
+            @role('patient')
+                <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                    <div class="max-w-xl">
+                        @include('profile.partials.update-patient-information-form')
+                    </div>
+                </div>
+            @endrole
 
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                 <div class="max-w-xl">
