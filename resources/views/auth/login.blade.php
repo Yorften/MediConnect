@@ -8,8 +8,8 @@
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="text" name="email" :value="old('email')"
-                autofocus autocomplete="username" />
+            <x-text-input id="email" class="block mt-1 w-full" type="text" name="email" :value="old('email', isset($_COOKIE['email']) ? $_COOKIE['email'] : '')" autofocus
+                autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
@@ -18,7 +18,7 @@
             <x-input-label for="password" :value="__('Password')" />
 
             <x-text-input id="password" class="block mt-1 w-full" type="password" name="password"
-                autocomplete="current-password" />
+                autocomplete="current-password" :value="isset($_COOKIE['password']) ? $_COOKIE['password'] : ''" />
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
@@ -45,7 +45,6 @@
                     {{ __('Forgot your password?') }}
                 </a>
             @endif
-
             <x-primary-button class="ms-3">
                 {{ __('Log in') }}
             </x-primary-button>

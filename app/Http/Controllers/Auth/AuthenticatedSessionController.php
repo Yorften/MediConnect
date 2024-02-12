@@ -28,6 +28,7 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
 
+        $data = $request->all();
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
@@ -50,6 +51,14 @@ class AuthenticatedSessionController extends Controller
                 } else {
                     return redirect()->route('register.patient');
                 }
+            }
+
+            if (isset($data['remember']) && !empty($data['remember'])) {
+                setcookie("email", $data['email'], time() + 3600);
+                setcookie("password", $data['password'], time() + 3600);
+            } else {
+                setcookie("email", "");
+                setcookie("password", "");
             }
 
             return redirect()->intended(RouteServiceProvider::HOME);
