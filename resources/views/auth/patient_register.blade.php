@@ -28,6 +28,5 @@
         </div>
     </form>
     @push('scripts')
-        <script src="{{ asset('assets/js/regex_signup.js') }}"></script>
     @endpush
 </x-guest-layout>
