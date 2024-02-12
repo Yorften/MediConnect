@@ -7,14 +7,15 @@ function validateForm() {
     var email = document.getElementById("email").value;
     var password = document.getElementById("password").value;
     var repeat = document.getElementById("password_confirmation").value;
+    var role = document.getElementById("role").value;
 
     var userErr = validateName(username);
     var emailErr = validateEmail(email);
     var passwordErr = validatePassword(password);
     var repeatErr = validateRepeat(password, repeat);
+    var roleErr = validateRole(role);
 
-    if (userErr && emailErr && passwordErr && repeatErr) {
-        console.log("true");
+    if (userErr && emailErr && passwordErr && repeatErr && roleErr) {
         return true;
     } else return false;
 }
@@ -75,10 +76,10 @@ function validatePassword(password) {
         }
     }
 }
-// message
+
 function validateRepeat(password, repeat) {
     if (repeat == "" || repeat == null) {
-        printError("repeatErr", "Please repeat the password");
+        printError("repeatErr", "Please repeat your password");
         return false;
     } else {
         if (password != repeat) {
@@ -91,11 +92,22 @@ function validateRepeat(password, repeat) {
     }
 }
 
+function validateRole(role) {
+    if (role == "" || role == null) {
+        printError("roleErr", "Please choose a role");
+        return false;
+    } else {
+        printError("roleErr", "");
+        return true;
+    }
+}
+
 function keydownValidation() {
     var username = document.getElementById("name");
     var email = document.getElementById("email");
     var password = document.getElementById("password");
     var repeat = document.getElementById("password_confirmation");
+    var role = document.getElementById("role");
 
     email.addEventListener("input", function () {
         validateEmail(email.value);
@@ -109,6 +121,9 @@ function keydownValidation() {
     repeat.addEventListener("input", function () {
         validateRepeat(password.value, repeat.value);
     });
+    role.addEventListener("input", function () {
+        validateRole(role.value);
+    });
 }
 
 function initValidation() {
@@ -116,6 +131,7 @@ function initValidation() {
     var email = document.getElementById("email");
     var password = document.getElementById("password");
     var repeat = document.getElementById("password_confirmation");
+    var role = document.getElementById("role");
 
     email.addEventListener("blur", function () {
         validateEmail(email.value);
@@ -129,16 +145,19 @@ function initValidation() {
     username.addEventListener("blur", function () {
         validateName(username.value);
     });
+    role.addEventListener("blur", function () {
+        validateRole(role.value);
+    });
 }
 
 keydownValidation();
-initValidation();
+// initValidation();
 
-document.addEventListener("DOMContentLoaded", function() {
-  var form = document.getElementById("register_form");
-  form.addEventListener("submit", function(event) {
-      if (!validateForm()) {
-          event.preventDefault(); // Prevent the form from submitting if validation fails
-      }
-  });
+document.addEventListener("DOMContentLoaded", function () {
+    var form = document.getElementById("register_form");
+    form.addEventListener("submit", function (event) {
+        if (!validateForm()) {
+            event.preventDefault();
+        }
+    });
 });
