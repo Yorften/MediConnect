@@ -19,13 +19,6 @@ Route::middleware('guest')->group(function () {
 
     Route::post('register', [RegisteredUserController::class, 'store']);
 
-    Route::get('/register/patient', [PatientController::class, 'create'])->name('register.patient');
-
-    Route::post('/register/patient', [PatientController::class, 'store']);
-    
-    Route::get('/register/doctor', [DoctorController::class, 'create'])->name('register.doctor');
-
-    Route::post('/register/doctor', [DoctorController::class, 'store']);
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
@@ -46,6 +39,16 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+
+    Route::get('/register/patient', [PatientController::class, 'create'])->name('register.patient');
+
+    Route::post('/register/patient', [PatientController::class, 'store']);
+
+    Route::get('/register/doctor', [DoctorController::class, 'create'])->name('register.doctor');
+
+    Route::post('/register/doctor', [DoctorController::class, 'store']);
+
+
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
 
