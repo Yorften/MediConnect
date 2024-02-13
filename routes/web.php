@@ -1,9 +1,11 @@
 <?php
 
+use App\Models\Speciality;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SpecialityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,8 +24,30 @@ Route::middleware('auth', 'check_doctor_patient')->group(function () {
     })->name('welcome');
 
     Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->middleware(['auth', 'role:admin'])->name('dashboard');
+        return view('dashboard.dashboard');
+    })->name('dashboard');
+
+    Route::middleware('auth', 'role:admin|doctor')->group(function () {
+        Route::get('/drugs', function () {
+            return view('dashboard.drug.index');
+        })->name('drugs');
+    });
+
+    Route::middleware('auth', 'role:admin')->group(function () {
+        Route::get('/specialities', [SpecialityController::class, 'index'])->name('specialities');
+        Route::get('/speciality/edit/{speciality}', [SpecialityController::class, 'edit'])->name('speciality.edit');
+        Route::patch('/speciality/edit/{speciality}', [SpecialityController::class, 'update'])->name('speciality.update');
+        Route::delete('/speciality/delete/{speciality}', [SpecialityController::class, 'destroy'])->name('speciality.delete');
+    });
+
+    Route::middleware('auth', 'role:doctor')->group(function () {
+        Route::get('/records', function () {
+            return view('dashboard.record.index');
+        })->name('records');
+        Route::get('/appointments', function () {
+            return view('dashboard.appointment.index');
+        })->name('appointments');
+    });
 });
 
 

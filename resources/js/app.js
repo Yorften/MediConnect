@@ -2,7 +2,11 @@ import "./bootstrap";
 
 import Alpine from "alpinejs";
 
-import { Tooltip, Ripple, Sidenav, Carousel, initTE } from "tw-elements";
+import { Tooltip, Ripple, Sidenav, Carousel, initTE, Datatable} from "tw-elements";
+
+window.Alpine = Alpine;
+
+Alpine.start();
 
 initTE({ Tooltip, Ripple, Carousel, Sidenav });
 
@@ -34,7 +38,3 @@ if (window.innerWidth < sidenavInstance.getBreakpoint("sm")) {
 
 // Event listeners
 window.addEventListener("resize", setMode);
-
-window.Alpine = Alpine;
-
-Alpine.start();
