@@ -35,9 +35,11 @@ Route::middleware('auth', 'check_doctor_patient')->group(function () {
 
     Route::middleware('auth', 'role:admin')->group(function () {
         Route::get('/specialities', [SpecialityController::class, 'index'])->name('specialities');
-        Route::get('/speciality/edit/{speciality}', [SpecialityController::class, 'edit'])->name('speciality.edit');
-        Route::patch('/speciality/edit/{speciality}', [SpecialityController::class, 'update'])->name('speciality.update');
-        Route::delete('/speciality/delete/{speciality}', [SpecialityController::class, 'destroy'])->name('speciality.delete');
+        Route::get('/specialities/edit/{speciality}', [SpecialityController::class, 'edit'])->name('speciality.edit');
+        Route::get('/specialities/add', [SpecialityController::class, 'create'])->name('speciality.create');
+        Route::post('/specialities', [SpecialityController::class, 'store'])->name('speciality.store');
+        Route::patch('/specialities/edit/{speciality}', [SpecialityController::class, 'update'])->name('speciality.update');
+        Route::delete('/specialities/delete/{speciality}', [SpecialityController::class, 'destroy'])->name('speciality.delete');
     });
 
     Route::middleware('auth', 'role:doctor')->group(function () {
