@@ -43,9 +43,9 @@ Route::middleware('auth', 'check_doctor_patient')->group(function () {
     Route::delete('/favourites/delete/{doctorId}', [FavouriteController::class, 'destroy'])->name('favourite.destroy');
 
     // Comments
-    Route::post('/comment/add', [CommentController::class, 'store'])->name('comment.create');
+    Route::post('/comment/add', [CommentController::class, 'store'])->name('comment.store');
     Route::patch('/comment/edit/{comment}', [CommentController::class, 'update'])->name('comment.update');
-    Route::delete('/comment/delete/{comment}', [CommentController::class, 'destroy'])->name('comment.delete');
+    Route::patch('/comment/delete/{comment}', [CommentController::class, 'delete'])->name('comment.delete');
 
     Route::middleware('auth', 'role:admin|doctor')->group(function () {
         Route::get('/drugs', [DrugController::class, 'index'])->name('drugs');
