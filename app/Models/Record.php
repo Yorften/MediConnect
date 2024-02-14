@@ -24,4 +24,9 @@ class Record extends Model
     {
         return $this->hasMany(Drug::class);
     }
+
+    public function appointment()
+    {
+        return $this->belongTo(Appointment::class);
+    }
 }

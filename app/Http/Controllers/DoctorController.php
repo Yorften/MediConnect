@@ -11,6 +11,13 @@ use App\Providers\RouteServiceProvider;
 
 class DoctorController extends Controller
 {
+
+    public function show(Doctor $doctor)
+    {
+        $doctor->load('user', 'speciality');
+        return view('doctor', ['doctor' => $doctor]);
+    }
+
     public function create()
     {
         return view('auth.doctor_register', ['specialities' => Speciality::all()]);

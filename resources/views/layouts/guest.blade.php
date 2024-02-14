@@ -29,7 +29,6 @@
             {{ $slot }}
         </div>
     </div>
-    <x-application-footer />
     @stack('scripts')
 </body>
 

@@ -1,12 +1,16 @@
 <?php
 
 use App\Models\Speciality;
+use App\Models\Appointment;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\DrugController;
+use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\SpecialityController;
+use App\Http\Controllers\AppointmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +34,18 @@ Route::middleware('auth', 'check_doctor_patient')->group(function () {
 
     Route::get('/specialities/browse', [SpecialityController::class, 'browse'])->name('specialities.browse');
     Route::get('/specialities/browse/{speciality}', [SpecialityController::class, 'show'])->name('specialities.show');
+    Route::get('/doctor/{doctor}', [DoctorController::class, 'show'])->name('doctor.show');
+    Route::get('/doctor/appointment', [AppointmentController::class, 'create'])->name('appointment.create');
+
+    // Favourites
+
+    Route::post('/favourite/add/{doctorId}', [FavouriteController::class, 'store'])->name('favourite.store');
+    Route::delete('/favourite/delete/{doctorId}', [FavouriteController::class, 'destroy'])->name('favourite.destroy');
+
+    // Comments
+    Route::post('/comment/add', [CommentController::class, 'store'])->name('comment.create');
+    Route::patch('/comment/edit/{comment}', [CommentController::class, 'update'])->name('comment.update');
+    Route::delete('/comment/delete/{comment}', [CommentController::class, 'destroy'])->name('comment.delete');
 
     Route::middleware('auth', 'role:admin|doctor')->group(function () {
         Route::get('/drugs', [DrugController::class, 'index'])->name('drugs');
