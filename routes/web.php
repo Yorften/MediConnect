@@ -28,6 +28,9 @@ Route::middleware('auth', 'check_doctor_patient')->group(function () {
         return view('dashboard.dashboard');
     })->name('dashboard');
 
+    Route::get('/specialities/browse', [SpecialityController::class, 'browse'])->name('specialities.browse');
+    Route::get('/specialities/browse/{speciality}', [SpecialityController::class, 'show'])->name('specialities.show');
+
     Route::middleware('auth', 'role:admin|doctor')->group(function () {
         Route::get('/drugs', [DrugController::class, 'index'])->name('drugs');
         Route::get('/drugs/edit/{drug}', [DrugController::class, 'edit'])->name('drug.edit');
