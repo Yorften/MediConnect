@@ -3,6 +3,7 @@
 use App\Models\Speciality;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\DrugController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpecialityController;
@@ -28,9 +29,12 @@ Route::middleware('auth', 'check_doctor_patient')->group(function () {
     })->name('dashboard');
 
     Route::middleware('auth', 'role:admin|doctor')->group(function () {
-        Route::get('/drugs', function () {
-            return view('dashboard.drug.index');
-        })->name('drugs');
+        Route::get('/drugs', [DrugController::class, 'index'])->name('drugs');
+        Route::get('/drugs/edit/{drug}', [DrugController::class, 'edit'])->name('drug.edit');
+        Route::get('/drugs/add', [DrugController::class, 'create'])->name('drug.create');
+        Route::post('/drugs', [DrugController::class, 'store'])->name('drug.store');
+        Route::patch('/drugs/edit/{drug}', [DrugController::class, 'update'])->name('drug.update');
+        Route::delete('/drugs/delete/{drug}', [DrugController::class, 'destroy'])->name('drug.delete');
     });
 
     Route::middleware('auth', 'role:admin')->group(function () {
