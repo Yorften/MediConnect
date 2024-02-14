@@ -51,7 +51,11 @@
                             <x-dropdown-link :href="route('profile.edit')">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
-
+                            @hasrole('patient')
+                                <x-dropdown-link :href="route('favourites')">
+                                    {{ __('Favourites') }}
+                                </x-dropdown-link>
+                            @endhasrole
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf

@@ -38,9 +38,9 @@ Route::middleware('auth', 'check_doctor_patient')->group(function () {
     Route::get('/doctor/appointment', [AppointmentController::class, 'create'])->name('appointment.create');
 
     // Favourites
-
-    Route::post('/favourite/add/{doctorId}', [FavouriteController::class, 'store'])->name('favourite.store');
-    Route::delete('/favourite/delete/{doctorId}', [FavouriteController::class, 'destroy'])->name('favourite.destroy');
+    Route::get('/favourites', [FavouriteController::class, 'index'])->name('favourites');
+    Route::post('/favourites/add/{doctorId}', [FavouriteController::class, 'store'])->name('favourite.store');
+    Route::delete('/favourites/delete/{doctorId}', [FavouriteController::class, 'destroy'])->name('favourite.destroy');
 
     // Comments
     Route::post('/comment/add', [CommentController::class, 'store'])->name('comment.create');
