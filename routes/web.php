@@ -35,7 +35,11 @@ Route::middleware('auth', 'check_doctor_patient')->group(function () {
     Route::get('/specialities/browse', [SpecialityController::class, 'browse'])->name('specialities.browse');
     Route::get('/specialities/browse/{speciality}', [SpecialityController::class, 'show'])->name('specialities.show');
     Route::get('/doctor/{doctor}', [DoctorController::class, 'show'])->name('doctor.show');
-    Route::get('/doctor/appointment', [AppointmentController::class, 'create'])->name('appointment.create');
+
+    // appointments
+    Route::get('/doctor/appointment/{doctor}', [AppointmentController::class, 'create'])->name('appointment.create');
+    Route::post('/doctor/appointment/{doctor}', [AppointmentController::class, 'store'])->name('appointment.store');
+    Route::post('/doctor/appointment/urgent', [AppointmentController::class, 'urgent'])->name('appointment.urgent');
 
     // Favourites
     Route::get('/favourites', [FavouriteController::class, 'index'])->name('favourites');
