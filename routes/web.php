@@ -37,6 +37,7 @@ Route::middleware('auth', 'check_doctor_patient')->group(function () {
     Route::get('/doctor/{doctor}', [DoctorController::class, 'show'])->name('doctor.show');
 
     // appointments
+    // how to pass doctorId to appointment form ?
     Route::get('/doctor/appointment/{doctor}', [AppointmentController::class, 'create'])->name('appointment.create');
     Route::post('/doctor/appointment/{doctor}', [AppointmentController::class, 'store'])->name('appointment.store');
     Route::post('/doctor/appointment/urgent', [AppointmentController::class, 'urgent'])->name('appointment.urgent');

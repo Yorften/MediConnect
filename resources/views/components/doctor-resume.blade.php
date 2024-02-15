@@ -3,14 +3,14 @@
         <h1 id="title" class="text-2xl md:text-3xl font-medium">Dr. {{ $doctor->user->name }}</h1>
         @hasrole('patient')
             <a href="{{ route('appointment.create', $doctor->id) }}"><x-primary-button
-                    class="w-full text-center">{{ __('Reserve an appointment') }}</x-primary-button></a>
+                    class="w-full text-center dark:hover:text-white dark:hover:bg-blue-500">{{ __('Reserve an appointment') }}</x-primary-button></a>
         @endhasrole
     </div>
     <div class="flex flex-col w-full shadow-xl rounded-xl border px-2 py-4 text-lg">
         <div class="w-full flex justify-end items-center">
             <div class="flex items-center gap-2">
-                @if($favourites > 0)
-                <p>({{ $favourites }} favourites)</p>
+                @if ($favourites > 0)
+                    <p>({{ $favourites }} favourites)</p>
                 @endif
                 @hasrole('patient')
                     @if (!$doctor->favourites()->where('patient_id', Auth::user()->patient->id)->exists())

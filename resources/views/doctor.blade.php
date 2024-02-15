@@ -41,7 +41,8 @@
                     class="w-full resize-none shadow-xl border-t-2 rounded-xl p-4 dark:bg-gray-300 dark:text-gray-800 placeholder:text-black"
                     placeholder="Leave a comment!" :value="old('content')"></textarea>
                 <div class="self-end">
-                    <x-primary-button class="text-center">{{ __('Comment') }}</x-primary-button>
+                    <x-primary-button
+                        class="text-center dark:hover:text-white dark:hover:bg-blue-500">{{ __('Comment') }}</x-primary-button>
                 </div>
             </form>
         </div>
@@ -102,16 +103,16 @@
             @endunless
         </div>
     </div>
-    @stack('scripts')
-    <script>
-        function editComment(commentId) {
+    @push('scripts')
+        <script>
+            function editComment(commentId) {
 
-            let commentContainer = document.getElementById('comment' + commentId);
-            let oldComment = encodeURIComponent(commentContainer.innerHTML);
+                let commentContainer = document.getElementById('comment' + commentId);
+                let oldComment = encodeURIComponent(commentContainer.innerHTML);
 
-            var comment = document.getElementById("p" + commentId).textContent;
-            var user = document.getElementById("user" + commentId).textContent;
-            document.getElementById("comment" + commentId).innerHTML = `
+                var comment = document.getElementById("p" + commentId).textContent;
+                var user = document.getElementById("user" + commentId).textContent;
+                document.getElementById("comment" + commentId).innerHTML = `
             <form action="/comment/edit/${commentId}" method="POST" class="flex flex-col gap-2">
                 @csrf
                 @method('patch')
@@ -124,11 +125,12 @@
   </div>
 </form>
   `;
-        }
+            }
 
-        function cancelEdit(oldComment, commentId) {
-            let commentContainer = document.getElementById('comment' + commentId);
-            commentContainer.innerHTML = decodeURIComponent(oldComment);
-        }
-    </script>
+            function cancelEdit(oldComment, commentId) {
+                let commentContainer = document.getElementById('comment' + commentId);
+                commentContainer.innerHTML = decodeURIComponent(oldComment);
+            }
+        </script>
+    @endpush
 </x-app-layout>

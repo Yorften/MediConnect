@@ -121,4 +121,7 @@
             </div>
         </div>
     </div>
+    @push('vite')
+        @vite(['resources/js/responsive_dashboard.js'])
+    @endpush
 </x-dashboard-layout>
