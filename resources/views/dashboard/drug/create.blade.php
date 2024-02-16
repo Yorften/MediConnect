@@ -28,7 +28,7 @@
                 </li>
             </ul>
         </div>
-        <p class="text-none text-xl font-semibold indent-4 text-gray-800 dark:text-gray-200 mt-4">Add speciality</p>
+        <p class="text-none text-xl font-semibold indent-4 text-gray-800 dark:text-gray-200 mt-4">Add drug</p>
         <div class="shadow-lg rounded-md bg-gray-200 dark:bg-gray-800 w-2/3 mx-auto p-4 mt-8">
             <form method="post" action="{{ route('drug.store') }}" class="mt-6 space-y-6">
                 @csrf

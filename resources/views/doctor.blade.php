@@ -41,7 +41,7 @@
                     <input id="doctor_id" type="hidden" name="doctor_id" value="{{ $doctor->id }}">
                     <div>
                         <textarea name="content" id="content" cols="30" rows="5"
-                            class="w-full resize-none shadow-xl border-t-2 rounded-xl p-4 dark:bg-gray-300 dark:text-gray-800 placeholder:text-black"
+                            class="w-full resize-none shadow-xl border-t-2 rounded-xl p-4 dark:bg-gray-300 dark:text-gray-800 placeholder:text-gray-800"
                             placeholder="Leave a comment!" :value="old('content')"></textarea>
                         <x-input-error :messages="$errors->get('content')" class="mt-2" />
                     </div>
@@ -60,7 +60,7 @@
                             <x-input-error :messages="$errors->get('rating')" class="mt-2" />
                         </div>
                         <x-primary-button
-                            class="text-center dark:hover:text-white dark:hover:bg-blue-600">{{ __('Comment') }}
+                            class="text-center dark:hover:text-white dark:hover:bg-blue-600 dark:focus:bg-blue-600 dark:focus:text-white dark:active:bg-blue-700">{{ __('Comment') }}
                         </x-primary-button>
                     </div>
                 </form>

@@ -33,9 +33,9 @@
     </div>
     @unless (count($records) == 0)
         @foreach ($records as $record)
-        {{-- cards --}}
+            {{-- cards --}}
         @endforeach
     @else
-        <p class="w-full flex justify-center mt-10 font-bold text-2xl">No records found</p>
+        <p class="w-full flex justify-center mt-20 font-bold text-2xl text-gray-800 dark:text-gray-200">No records found</p>
     @endunless
 </x-dashboard-layout>
