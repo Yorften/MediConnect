@@ -29,6 +29,8 @@
             </header>
         @endif
 
+        <x-input-error :messages="session('urgent_error')"
+            class="dark:child:text-red-600 dark:bg-gray-300 bg-red-600 child:text-gray-200 font-semibold text-xl text-center rounded-md my-10 w-3/4 mx-auto"/>
         <!-- Page Content -->
         <main>
             {{ $slot }}

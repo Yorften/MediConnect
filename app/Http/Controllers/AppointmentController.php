@@ -17,7 +17,7 @@ class AppointmentController extends Controller
 
         $user = Auth::user();
         $appointments = null;
-        if (count($appointments = $user->patient->appointments()->get()) !== 0) {
+        if (count($appointments = Appointment::where('is_missed', 0)->where('attended', 0)->get()) !== 0) {
             foreach ($appointments as $appointment) {
                 if (Carbon::now()->startOfHour()->subHour() >= $appointment->date) {
                     $appointment->update([
@@ -29,7 +29,7 @@ class AppointmentController extends Controller
         if ($user->hasRole('patient')) {
             $appointments = $user->patient->appointments()->where('attended', 0)->where('is_missed', 0)->paginate(4);
         } elseif ($user->hasRole('doctor')) {
-            $appointments = $user->doctor->appointments()->where('attended', 0)->where('is_missed', 0)->paginate(4);
+            $appointments = $user->doctor->appointments()->where('attended', 0)->where('is_missed', 0)->orderBy('date')->paginate(4);
         }
 
         if ($appointments instanceof \Illuminate\Pagination\LengthAwarePaginator) {
@@ -71,7 +71,7 @@ class AppointmentController extends Controller
 
     public function create(Doctor $doctor)
     {
-        return view('dashboard.appointment.history', ['doctor' => $doctor, 'appointments' => Appointment::where('doctor_id', $doctor->id)->orderBy('date')->get()]);
+        return view('appointment', ['doctor' => $doctor, 'appointments' => Appointment::where('doctor_id', $doctor->id)->orderBy('date')->get()]);
     }
 
     public function store(Request $request, Doctor $doctor)
@@ -114,7 +114,7 @@ class AppointmentController extends Controller
         if (count($appointments = $patient->appointments()->get()) !== 0) {
             foreach ($appointments as $appointment) {
                 if ($date->toDateTimeString() == $appointment->date) {
-                    return back()->with('appointment_error', 'You can\'t reserve anouther appointment on the same time');
+                    return back()->with('appointment_error', 'You can\'t reserve another appointment on the same time');
                 }
             }
         }
@@ -128,5 +128,62 @@ class AppointmentController extends Controller
         ]);
 
         return back();
+    }
+
+    public function urgent()
+    {
+
+        $patient = Patient::where('user_id', Auth::id())->first();
+        $generalists = Doctor::where('speciality_id', 1)->get();
+
+        $today = now()->toDateString();
+        $hour = now()->ceilHour()->hour;
+
+        $hasAppointment = false;
+
+        foreach ($generalists as $doctor) {
+            for ($i = $hour; $i <= 23; $i++) {
+                $appointmentExists = $doctor->appointments()
+                    ->where('patient_id', $patient->id)
+                    ->whereDate('date', $today)
+                    ->whereTime('date', "{$i}:00:00")
+                    ->exists();
+
+                if ($appointmentExists) {
+                    $hasAppointment = true;
+                    break 2; // Exit both loops since appointment found
+                }
+            }
+        }
+
+        if ($hasAppointment) {
+            return back()->with('urgent_error', 'You already reserved an appointment for a generalist, please check your appointments in your dashboard.');
+        }
+        if ($hour <= 7) {
+            $hour = 8;
+        } elseif ($hour >= 18) {
+            $hour = 24;
+        }
+
+        while ($hour < 24) {
+            $availableDoctor = $generalists->first(function ($doctor) use ($today, $hour) {
+                return !$doctor->appointments()->whereDate('date', $today)->whereTime('date', "{$hour}:00:00")->exists();
+            });
+
+            if ($availableDoctor) {
+                Appointment::create([
+                    'doctor_id' => $availableDoctor->id,
+                    'patient_id' => auth()->user()->patient->id,
+                    'date' => "{$today} {$hour}:00:00",
+                ]);
+
+                return redirect()->back()->with('urgent_error', 'Appointment scheduled successfully!');
+            }
+
+            // Move to the next hour
+            $hour++;
+        }
+
+        return back()->with('urgent_error', 'Clinic is closed for the day, you can reserve tomorrow.');
     }
 }

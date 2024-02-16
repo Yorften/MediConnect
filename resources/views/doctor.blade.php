@@ -1,5 +1,6 @@
 <x-app-layout>
     <div class="w-3/4 mx-auto min-h-[70vh] text-gray-800 dark:text-gray-200">
+        <input type="hidden" class="bg-blue-600">
         <div class="flex items-center flex-wrap mt-10">
             <ul class="flex items-center border-red-600">
                 <li class="inline-flex items-center">

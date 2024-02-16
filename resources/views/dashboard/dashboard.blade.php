@@ -1,5 +1,5 @@
 <x-dashboard-layout>
-    <div class="w-11/12 h-[90vh] mx-auto">
+    <div class="w-11/12 mx-auto">
         <div class="flex items-center flex-wrap">
             <ul class="flex flex-wrap items-center border-red-600">
                 <li class="inline-flex items-center">
@@ -146,7 +146,32 @@
                 </div>
             </div>
         @endhasrole
-        @hasrole('docotr')
+        @hasrole('doctor')
+            <div class="flex flex-col justify-between h-[90%] text-gray-600 dark:text-gray-200">
+                <div class="flex flex-col gap-8">
+                    <p class="text-2xl font-semibold self-start">Reserved Appointments</p>
+                    @php
+                        // echo now();
+                    @endphp
+                    @unless ($appointments->total() == 0)
+                        <div class="flex flex-col gap-2 justify-center">
+                            @foreach ($appointments as $appointment)
+                                <div class="flex flex-col">
+                                    <x-doctor-card :doctor="$appointment->patient">
+                                        <p class="font-bold text-xl self-end underline">At: {{ $appointment->date }}</p>
+                                    </x-doctor-card>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="flex flex-col h-full w-full gap-2 items-center justify-center text-2xl font-semibold">
+                            No reserved appointments found
+                        </div>
+                    @endunless
+
+                </div>
+                <div class="mt-2 py-4">{{ $appointments->links() }}</div>
+            </div>
         @endhasrole
         @hasrole('patient')
             <div class="flex flex-col justify-between h-[90%] text-gray-600 dark:text-gray-200">

@@ -40,7 +40,7 @@ Route::middleware('auth', 'check_doctor_patient')->group(function () {
     // Appointments
     Route::get('/doctor/appointment/{doctor}', [AppointmentController::class, 'create'])->name('appointment.create');
     Route::post('/doctor/appointment/{doctor}', [AppointmentController::class, 'store'])->name('appointment.store');
-    Route::post('/doctor/appointment/urgent', [AppointmentController::class, 'urgent'])->name('appointment.urgent');
+    Route::post('/appointment/urgent', [AppointmentController::class, 'urgent'])->name('appointment.urgent');
 
     // Favourites
     Route::get('/dashboard/favourites', [FavouriteController::class, 'index'])->name('favourites');
@@ -66,17 +66,16 @@ Route::middleware('auth', 'check_doctor_patient')->group(function () {
         Route::get('/dashobard/specialities/edit/{speciality}', [SpecialityController::class, 'edit'])->name('speciality.edit');
         Route::get('/dashobard/specialities/add', [SpecialityController::class, 'create'])->name('speciality.create');
         Route::post('/specialities', [SpecialityController::class, 'store'])->name('speciality.store');
-        Route::patch('/specialities/edit/{speciality}', [SpecialityController::class, 'update'])->name('speciality.update');
-        Route::delete('/specialities/delete/{speciality}', [SpecialityController::class, 'destroy'])->name('speciality.delete');
+        Route::patch('/dashobard/specialities/edit/{speciality}', [SpecialityController::class, 'update'])->name('speciality.update');
+        Route::delete('/dashobard/specialities/delete/{speciality}', [SpecialityController::class, 'destroy'])->name('speciality.delete');
     });
 
     Route::middleware('auth', 'role:doctor')->group(function () {
-        Route::get('/dashboard/records', function () {
-            return view('dashboard.record.index');
-        })->name('doctor.records');
-        Route::get('/dashboard/appointments', function () {
-            return view('dashboard.appointment.index');
-        })->name('appointments');
+        Route::get('/dashboard/records', [RecordController::class, 'index'])->name('records');
+        Route::get('/dashboard/records/add', [RecordController::class, 'create'])->name('record.create');
+        Route::post('/records', [RecordController::class, 'store'])->name('record.store');
+        Route::get('/dashboard/records/edit/{record}', [RecordController::class, 'edit'])->name('record.edit');
+        Route::patch('/dashboard/records/edit/{record}', [RecordController::class, 'update'])->name('record.update');
     });
 
     Route::middleware('auth', 'role:patient')->group(function () {

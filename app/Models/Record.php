@@ -22,7 +22,7 @@ class Record extends Model
 
     public function drugs()
     {
-        return $this->hasMany(Drug::class);
+        return $this->belongsToMany(Drug::class);
     }
 
     public function appointment()

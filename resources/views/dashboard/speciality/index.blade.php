@@ -1,5 +1,5 @@
 <x-dashboard-layout>
-    <div class="w-11/12 h-[90vh] mx-auto flex flex-col items-start justify-start">
+    <div class="w-11/12 mx-auto flex flex-col items-start justify-start">
         <div class="flex items-center flex-wrap">
             <ul class="flex items-center">
                 <li class="inline-flex items-center">
@@ -27,7 +27,7 @@
         <div class="w-full flex justify-between items-center px-2 mt-4">
             <p class="text-none text-xl font-semibold indent-4 text-gray-800 dark:text-gray-200">All speialities</p>
             <a href="{{ route('speciality.create') }}"
-                class="text-gray-800 dark:text-gray-200 text-xl font-semibold hover:shadow-md hover:underline">Add
+                class="text-gray-800 dark:text-gray-200 text-xl font-semibold hover:underline">Add
                 a speciality</a>
         </div>
         <div class="shadow-lg border-t-2 w-full p-2 mt-8">

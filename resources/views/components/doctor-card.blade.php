@@ -4,10 +4,12 @@
         <div class="flex justify-between items-center text-white-50">
             <p class="text-xl">{{ $doctor->user->name }}</p>
             <div class="flex items-center gap-4">
+                @if($doctor->diploma !== null)
                 <p>Diploma: {{ $doctor->diploma }}</p>
+                @endif
                 <p>Phone number: {{ $doctor->phone_number }}</p>
             </div>
         </div>
-        {{$slot}}
+        {{ $slot }}
     </div>
 </a>
