@@ -13,7 +13,7 @@ class FavouriteController extends Controller
 
     public function index()
     {
-        return view('favourites', ['favourites' => Auth::user()->patient->favourites()->with('doctor')->paginate(6)]);
+        return view('dashboard.favourites', ['favourites' => Auth::user()->patient->favourites()->with('doctor')->paginate(6)]);
     }
 
     public function store($doctorId)

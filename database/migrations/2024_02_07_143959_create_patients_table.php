@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('insurance_name');
             $table->string('phone_number');
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()->unique();
             $table->timestamps();
         });
     }

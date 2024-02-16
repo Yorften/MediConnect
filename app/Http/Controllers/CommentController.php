@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rating;
 use App\Models\Comment;
 use App\Models\Patient;
 use Illuminate\Http\Request;
@@ -18,8 +19,23 @@ class CommentController extends Controller
             'content' => [
                 'required',
             ],
+            'rating' => 'required',
             'doctor_id' => 'required',
         ]);
+
+        $rating = Rating::where('patient_id',  $patient->id)->where('doctor_id', $validated['doctor_id'])->first();
+
+        if ($rating) {
+            $rating->update([
+                'rating' => $validated['rating'],
+            ]);
+        } else {
+            Rating::create([
+                'rating' => $validated['rating'],
+                'doctor_id' => $validated['doctor_id'],
+                'patient_id' => $patient->id,
+            ]);
+        }
 
         Comment::create([
             'content' => $validated['content'],
@@ -30,10 +46,10 @@ class CommentController extends Controller
         return back();
     }
 
-    public function update(Request $request,Comment $comment)
+    public function update(Request $request, Comment $comment)
     {
         $validated = $request->validate([
-            'content' => [
+            'content_edit' => [
                 'required',
             ],
         ]);

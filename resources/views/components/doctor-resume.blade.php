@@ -3,12 +3,19 @@
         <h1 id="title" class="text-2xl md:text-3xl font-medium">Dr. {{ $doctor->user->name }}</h1>
         @hasrole('patient')
             <a href="{{ route('appointment.create', $doctor->id) }}"><x-primary-button
-                    class="w-full text-center dark:hover:text-white dark:hover:bg-blue-500">{{ __('Reserve an appointment') }}</x-primary-button></a>
+                    class="w-full text-center dark:hover:text-white dark:hover:bg-blue-600">{{ __('Reserve an appointment') }}</x-primary-button></a>
         @endhasrole
     </div>
     <div class="flex flex-col w-full shadow-xl rounded-xl border px-2 py-4 text-lg">
-        <div class="w-full flex justify-end items-center">
-            <div class="flex items-center gap-2">
+        <div class="w-full flex justify-between items-center mb-4">
+            <div>
+                @if ($doctor->ratings->avg('rating') === null)
+                    <p class=" font-semibold">Rating: <span class="text-gray-500 font-bold">(unrated)</span></p>
+                @else
+                    <p class=" font-semibold">Rating: {{ $doctor->ratings->avg('rating') }} 💉</p>
+                @endif
+            </div>
+            <div class="flex items-center gap-2 pr-2">
                 @if ($favourites > 0)
                     <p>({{ $favourites }} favourites)</p>
                 @endif

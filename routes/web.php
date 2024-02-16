@@ -5,6 +5,7 @@ use App\Models\Appointment;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DrugController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\RecordController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
@@ -28,22 +29,21 @@ Route::middleware('auth', 'check_doctor_patient')->group(function () {
         return view('welcome');
     })->name('welcome');
 
-    Route::get('/dashboard', function () {
-        return view('dashboard.dashboard');
-    })->name('dashboard');
+
+    // Dashboard get appointments (of doctors for patient / of patient for doctors)
+    Route::get('/dashboard', [AppointmentController::class, 'index'])->name('dashboard');
 
     Route::get('/specialities/browse', [SpecialityController::class, 'browse'])->name('specialities.browse');
     Route::get('/specialities/browse/{speciality}', [SpecialityController::class, 'show'])->name('specialities.show');
     Route::get('/doctor/{doctor}', [DoctorController::class, 'show'])->name('doctor.show');
 
-    // appointments
-    // how to pass doctorId to appointment form ?
+    // Appointments
     Route::get('/doctor/appointment/{doctor}', [AppointmentController::class, 'create'])->name('appointment.create');
     Route::post('/doctor/appointment/{doctor}', [AppointmentController::class, 'store'])->name('appointment.store');
     Route::post('/doctor/appointment/urgent', [AppointmentController::class, 'urgent'])->name('appointment.urgent');
 
     // Favourites
-    Route::get('/favourites', [FavouriteController::class, 'index'])->name('favourites');
+    Route::get('/dashboard/favourites', [FavouriteController::class, 'index'])->name('favourites');
     Route::post('/favourites/add/{doctorId}', [FavouriteController::class, 'store'])->name('favourite.store');
     Route::delete('/favourites/delete/{doctorId}', [FavouriteController::class, 'destroy'])->name('favourite.destroy');
 
@@ -53,30 +53,36 @@ Route::middleware('auth', 'check_doctor_patient')->group(function () {
     Route::patch('/comment/delete/{comment}', [CommentController::class, 'delete'])->name('comment.delete');
 
     Route::middleware('auth', 'role:admin|doctor')->group(function () {
-        Route::get('/drugs', [DrugController::class, 'index'])->name('drugs');
-        Route::get('/drugs/edit/{drug}', [DrugController::class, 'edit'])->name('drug.edit');
-        Route::get('/drugs/add', [DrugController::class, 'create'])->name('drug.create');
+        Route::get('/dashobard/drugs', [DrugController::class, 'index'])->name('drugs');
+        Route::get('/dashobard/drugs/edit/{drug}', [DrugController::class, 'edit'])->name('drug.edit');
+        Route::get('/dashobard/drugs/add', [DrugController::class, 'create'])->name('drug.create');
         Route::post('/drugs', [DrugController::class, 'store'])->name('drug.store');
         Route::patch('/drugs/edit/{drug}', [DrugController::class, 'update'])->name('drug.update');
         Route::delete('/drugs/delete/{drug}', [DrugController::class, 'destroy'])->name('drug.delete');
     });
 
     Route::middleware('auth', 'role:admin')->group(function () {
-        Route::get('/specialities', [SpecialityController::class, 'index'])->name('specialities');
-        Route::get('/specialities/edit/{speciality}', [SpecialityController::class, 'edit'])->name('speciality.edit');
-        Route::get('/specialities/add', [SpecialityController::class, 'create'])->name('speciality.create');
+        Route::get('/dashboard/specialities', [SpecialityController::class, 'index'])->name('specialities');
+        Route::get('/dashobard/specialities/edit/{speciality}', [SpecialityController::class, 'edit'])->name('speciality.edit');
+        Route::get('/dashobard/specialities/add', [SpecialityController::class, 'create'])->name('speciality.create');
         Route::post('/specialities', [SpecialityController::class, 'store'])->name('speciality.store');
         Route::patch('/specialities/edit/{speciality}', [SpecialityController::class, 'update'])->name('speciality.update');
         Route::delete('/specialities/delete/{speciality}', [SpecialityController::class, 'destroy'])->name('speciality.delete');
     });
 
     Route::middleware('auth', 'role:doctor')->group(function () {
-        Route::get('/records', function () {
+        Route::get('/dashboard/records', function () {
             return view('dashboard.record.index');
-        })->name('records');
-        Route::get('/appointments', function () {
+        })->name('doctor.records');
+        Route::get('/dashboard/appointments', function () {
             return view('dashboard.appointment.index');
         })->name('appointments');
+    });
+
+    Route::middleware('auth', 'role:patient')->group(function () {
+        Route::get('/dashboard/appointments/missed', [AppointmentController::class, 'missed'])->name('appointment.missed');
+
+        Route::get('/dashboard/appointments/history', [AppointmentController::class, 'history'])->name('appointment.history');
     });
 });
 

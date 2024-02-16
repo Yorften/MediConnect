@@ -14,7 +14,7 @@ class DoctorController extends Controller
 
     public function show(Doctor $doctor)
     {
-        $doctor->load('user', 'speciality', 'comments');
+        $doctor->load('user', 'speciality', 'comments', 'ratings');
         return view('doctor', ['doctor' => $doctor, 'favourites' => $doctor->favourites->count()]);
     }
 

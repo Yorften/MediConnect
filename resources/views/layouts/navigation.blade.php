@@ -13,13 +13,13 @@
 
 
                 <!-- Navigation Links -->
-                @hasrole(['admin', 'doctor'])
+                @auth
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                             {{ __('Dashboard') }}
                         </x-nav-link>
                     </div>
-                @endhasrole
+                @endauth
                 @hasrole('patient')
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('specialities.browse')" :active="request()->routeIs('specialities.browse')">
@@ -32,6 +32,7 @@
             <!-- Settings Dropdown -->
             @auth
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
+                    
                     <form action="{{ route('appointment.urgent') }}" method="post" class="">
                         @csrf
                         <x-primary-button
@@ -59,6 +60,9 @@
                                 {{ __('Profile') }}
                             </x-dropdown-link>
                             @hasrole('patient')
+                                <x-dropdown-link :href="route('dashboard')">
+                                    {{ __('Appointments') }}
+                                </x-dropdown-link>
                                 <x-dropdown-link :href="route('favourites')">
                                     {{ __('Favourites') }}
                                 </x-dropdown-link>
@@ -103,13 +107,22 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden shadow-xl dark:shadow">
-        @hasrole(['admin', 'doctor'])
+        @hasrole('patient')
+            <div class="pt-2 pb-3 space-y-1">
+                <form action="{{ route('appointment.urgent') }}" method="post" class="">
+                    @csrf
+                    <x-primary-button
+                        class="text-center bg-red-600 hover:bg-slate-100 hover:text-red-600 dark:bg-red-600 dark:hover:bg-slate-100 dark:hover:text-red-600 dark:text-white">{{ __('urgent appointment') }}</x-primary-button>
+                </form>
+            </div>
+        @endhasrole
+        @auth
             <div class="pt-2 pb-3 space-y-1">
                 <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                     {{ __('Dashboard') }}
                 </x-responsive-nav-link>
             </div>
-        @endhasrole
+        @endauth
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('specialities.browse')" :active="request()->routeIs('specialities.browse')">
                 {{ __('Specialities') }}

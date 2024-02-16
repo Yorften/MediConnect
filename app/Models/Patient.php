@@ -24,6 +24,11 @@ class Patient extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
     public function appointments()
     {
         return $this->hasMany(Appointment::class);

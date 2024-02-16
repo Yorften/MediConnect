@@ -35,6 +35,14 @@ class AuthenticatedSessionController extends Controller
 
             $user = Auth::user();
 
+            if (isset($data['remember']) && !empty($data['remember'])) {
+                setcookie("email", $data['email'], time() + 3600);
+                setcookie("password", $data['password'], time() + 3600);
+            } else {
+                setcookie("email", "");
+                setcookie("password", "");
+            }
+
             if ($user->hasRole('doctor')) {
                 if (Doctor::where('user_id', $user->id)->first()) {
                     $request->session()->regenerate();
@@ -51,14 +59,6 @@ class AuthenticatedSessionController extends Controller
                 } else {
                     return redirect()->route('register.patient');
                 }
-            }
-
-            if (isset($data['remember']) && !empty($data['remember'])) {
-                setcookie("email", $data['email'], time() + 3600);
-                setcookie("password", $data['password'], time() + 3600);
-            } else {
-                setcookie("email", "");
-                setcookie("password", "");
             }
 
             return redirect()->intended(RouteServiceProvider::HOME);

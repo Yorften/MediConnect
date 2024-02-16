@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('inpe');
             $table->string('diploma');
             $table->string('phone_number');
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()->unique();
             $table->foreignId('speciality_id')->nullable()->constrained();
             $table->timestamps();
         });

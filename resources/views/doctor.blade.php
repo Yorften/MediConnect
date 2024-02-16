@@ -33,19 +33,38 @@
         <div class="flex flex-col mt-6">
             <h1 class="text-2xl font-medium pl-4">Comments</h1>
         </div>
-        <div class="flex flex-col gap-4 w-[95%] mx-auto md:mx-0 md:w-4/5">
-            <form action="{{ route('comment.store') }}" method="POST" class="flex flex-col gap-2">
-                @csrf
-                <input id="doctor_id" type="hidden" name="doctor_id" value="{{ $doctor->id }}">
-                <textarea name="content" id="content" cols="30" rows="5"
-                    class="w-full resize-none shadow-xl border-t-2 rounded-xl p-4 dark:bg-gray-300 dark:text-gray-800 placeholder:text-black"
-                    placeholder="Leave a comment!" :value="old('content')"></textarea>
-                <div class="self-end">
-                    <x-primary-button
-                        class="text-center dark:hover:text-white dark:hover:bg-blue-500">{{ __('Comment') }}</x-primary-button>
-                </div>
-            </form>
-        </div>
+        @hasrole('patient')
+            <div class="flex flex-col gap-4 w-[95%] mx-auto md:mx-0 md:w-4/5">
+                <form action="{{ route('comment.store') }}" method="POST" class="flex flex-col gap-2">
+                    @csrf
+                    <input id="doctor_id" type="hidden" name="doctor_id" value="{{ $doctor->id }}">
+                    <div>
+                        <textarea name="content" id="content" cols="30" rows="5"
+                            class="w-full resize-none shadow-xl border-t-2 rounded-xl p-4 dark:bg-gray-300 dark:text-gray-800 placeholder:text-black"
+                            placeholder="Leave a comment!" :value="old('content')"></textarea>
+                        <x-input-error :messages="$errors->get('content')" class="mt-2" />
+                    </div>
+                    <div class="w-full flex items-center justify-between">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <x-input-label for="rating" :value="__('Rating: ')" />
+                                <x-select-input id="rating" class="block mt-1 w-full h-9" name="rating">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5" selected>5</option>
+                                </x-select-input>
+                            </div>
+                            <x-input-error :messages="$errors->get('rating')" class="mt-2" />
+                        </div>
+                        <x-primary-button
+                            class="text-center dark:hover:text-white dark:hover:bg-blue-600">{{ __('Comment') }}
+                        </x-primary-button>
+                    </div>
+                </form>
+            </div>
+        @endhasrole
         <div id="comments"
             class="flex flex-col gap-4 w-[95%] mx-auto md:mx-0 md:w-4/5 mt-6 mb-10 p-2 bg-[#f5f5f5] dark:border dark:border-gray-800 dark:bg-gray-900 rounded-lg">
 
@@ -113,17 +132,20 @@
                 var comment = document.getElementById("p" + commentId).textContent;
                 var user = document.getElementById("user" + commentId).textContent;
                 document.getElementById("comment" + commentId).innerHTML = `
-            <form action="/comment/edit/${commentId}" method="POST" class="flex flex-col gap-2">
-                @csrf
-                @method('patch')
-  <textarea name="content" id="newcomment${commentId}" cols="30" rows="5"
-      class="w-full resize-none shadow-xl border-t-2 rounded-xl p-4 mb-4 dark:bg-gray-300 dark:text-gray-800" placeholder="Leave a comment!">${comment}</textarea>
-  <div class="w-full flex justify-end gap-4">
-      <button class="px-8 py-2 bg-gray-500 border border-gray-600 text-white font-semibold rounded-lg ">Apply</button>
-    
-      <p onclick="cancelEdit('${oldComment}', ${commentId})" class="cursor-pointer px-8 py-2 bg-gray-500 border border-gray-600 text-white font-semibold rounded-lg ">Cancel</p>
-  </div>
-</form>
+                    <form action="/comment/edit/${commentId}" method="POST" class="flex flex-col gap-2">
+                        @csrf
+                        @method('patch')
+                        <div>
+                            <textarea name="content_edit" id="newcomment${commentId}" cols="30" rows="5"
+                            class="w-full resize-none shadow-xl border-t-2 rounded-xl p-4 dark:bg-gray-300 dark:text-gray-800" placeholder="Leave a comment!">${comment}</textarea>
+                            <x-input-error :messages="$errors->get('content_edit')" class="mt-2" />
+                        </div>
+                        <div class="w-full flex justify-end gap-4">
+                            <button class="px-8 py-2 bg-gray-500 border border-gray-600 text-white font-semibold rounded-lg ">Apply</button>
+                            
+                            <p onclick="cancelEdit('${oldComment}', ${commentId})" class="cursor-pointer px-8 py-2 bg-gray-500 border border-gray-600 text-white font-semibold rounded-lg ">Cancel</p>
+                        </div>
+                    </form>
   `;
             }
 
