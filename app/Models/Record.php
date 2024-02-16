@@ -27,6 +27,6 @@ class Record extends Model
 
     public function appointment()
     {
-        return $this->belongTo(Appointment::class);
+        return $this->belongsTo(Appointment::class);
     }
 }

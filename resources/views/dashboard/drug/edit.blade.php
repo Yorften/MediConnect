@@ -24,7 +24,7 @@
                     <span class="mx-4 h-auto text-gray-400 font-medium">/</span>
                 </li>
                 <li class="inline-flex items-center">
-                    <p class="text-gray-600 dark:text-gray-200 hover:text-blue-500">Edit</p>
+                    <p class="text-gray-600 dark:text-gray-200 hover:text-blue-500">Edit Drug</p>
                 </li>
             </ul>
         </div>
