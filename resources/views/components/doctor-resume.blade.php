@@ -3,7 +3,7 @@
         <h1 id="title" class="text-2xl md:text-3xl font-medium">Dr. {{ $doctor->user->name }}</h1>
         @hasrole('patient')
             <a href="{{ route('appointment.create', $doctor->id) }}"><x-primary-button
-                    class="w-full text-center dark:hover:text-white dark:hover:bg-blue-600 dark:focus:bg-blue-600 dark:focus:text-white dark:active:bg-blue-700">{{ __('Reserve an appointment') }}</x-primary-button></a>
+                    class="w-full text-center">{{ __('Reserve an appointment') }}</x-primary-button></a>
         @endhasrole
     </div>
     <div class="flex flex-col w-full shadow-xl rounded-xl border px-2 py-4 text-lg">

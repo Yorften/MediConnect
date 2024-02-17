@@ -12,6 +12,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\SpecialityController;
 use App\Http\Controllers\AppointmentController;
+use App\Models\Record;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,15 +74,16 @@ Route::middleware('auth', 'check_doctor_patient')->group(function () {
     Route::middleware('auth', 'role:doctor')->group(function () {
         Route::get('/dashboard/records', [RecordController::class, 'index'])->name('records');
         Route::get('/dashboard/records/add', [RecordController::class, 'create'])->name('record.create');
+        Route::get('/dashboard/records/{record}', [RecordController::class, 'show'])->name('record.show');
         Route::post('/records', [RecordController::class, 'store'])->name('record.store');
-        Route::get('/dashboard/records/edit/{record}', [RecordController::class, 'edit'])->name('record.edit');
-        Route::patch('/dashboard/records/edit/{record}', [RecordController::class, 'update'])->name('record.update');
+        // Route::get('/dashboard/records/edit/{record}', [RecordController::class, 'edit'])->name('record.edit');
+        // Route::patch('/dashboard/records/edit/{record}', [RecordController::class, 'update'])->name('record.update');
     });
 
     Route::middleware('auth', 'role:patient')->group(function () {
         Route::get('/dashboard/appointments/missed', [AppointmentController::class, 'missed'])->name('appointment.missed');
-
-        Route::get('/dashboard/appointments/history', [AppointmentController::class, 'history'])->name('appointment.history');
+        Route::get('/dashboard/appointments/history', [RecordController::class, 'history'])->name('appointment.history');
+        Route::get('/certificate/{record}', [RecordController::class, 'certificate'])->name('record.certificate');
     });
 });
 

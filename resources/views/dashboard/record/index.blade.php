@@ -24,18 +24,26 @@
                 </li>
             </ul>
         </div>
-        <div class="w-full flex justify-between items-center px-2 mt-4">
-            <p class="text-none text-xl font-semibold indent-4 text-gray-800 dark:text-gray-200">All records</p>
-            <a href="{{ route('record.create') }}"
-                class="text-gray-800 dark:text-gray-200 text-xl font-semibold hover:underline">Add
-                a record</a>
+        <div class="flex flex-col gap-8">
+            <div class="w-full flex justify-between items-center px-2 mt-4">
+                <p class="text-none text-xl font-semibold indent-4 text-gray-800 dark:text-gray-200">All records</p>
+                <a href="{{ route('record.create') }}"
+                    class="text-gray-800 dark:text-gray-200 text-xl font-semibold hover:underline">Add
+                    a record</a>
+            </div>
+            @unless (count($records) == 0)
+                @foreach ($records as $record)
+                    <a href="{{ route('record.show', $record->id) }}">
+                        <x-record-card :doctor="$record->patient" :record="$record">
+                            <p class="font-bold text-xl self-end underline">Record created at: {{ $record->created_at }}</p>
+                        </x-record-card>
+                    </a>
+                @endforeach
+            @else
+                <p class="w-full flex justify-center mt-20 font-bold text-2xl text-gray-800 dark:text-gray-200">No records
+                    found
+                </p>
+            @endunless
         </div>
     </div>
-    @unless (count($records) == 0)
-        @foreach ($records as $record)
-            {{-- cards --}}
-        @endforeach
-    @else
-        <p class="w-full flex justify-center mt-20 font-bold text-2xl text-gray-800 dark:text-gray-200">No records found</p>
-    @endunless
 </x-dashboard-layout>

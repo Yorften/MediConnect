@@ -39,21 +39,6 @@ class AppointmentController extends Controller
         return view('dashboard.dashboard', ['appointments' => $appointments]);
     }
 
-    public function history()
-    {
-        $user = Auth::user();
-        $appointments = null;
-
-        $appointments = $user->patient->appointments()->where('attended', 1)->where('is_missed', 0)->paginate(4);
-
-        if ($appointments instanceof \Illuminate\Pagination\LengthAwarePaginator) {
-            $appointments->load('patient', 'doctor');
-            return view('dashboard.appointment.history', ['appointments' => $appointments]);
-        }
-
-        return view('dashboard.appointment.history', ['appointments' => $appointments]);
-    }
-
     public function missed()
     {
         $user = Auth::user();

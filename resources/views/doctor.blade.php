@@ -60,7 +60,7 @@
                             <x-input-error :messages="$errors->get('rating')" class="mt-2" />
                         </div>
                         <x-primary-button
-                            class="text-center dark:hover:text-white dark:hover:bg-blue-600 dark:focus:bg-blue-600 dark:focus:text-white dark:active:bg-blue-700">{{ __('Comment') }}
+                            class="text-center">{{ __('Comment') }}
                         </x-primary-button>
                     </div>
                 </form>
